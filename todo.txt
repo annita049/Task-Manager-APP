@@ -1,5 +1,0 @@
-1. project file structure
-2. project packages
-3. route config
-4. app.js config
-5. postman initial config
