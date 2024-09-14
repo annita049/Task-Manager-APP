@@ -1,8 +1,8 @@
 import express from "express"
 const router = express.Router();
 
-import * as TaskController from "./controllers/TaskController.js"
-import * as UserController from "./controllers/UserController.js"
+import * as TaskController from "../controllers/TaskController.js"
+import * as UserController from "../controllers/UserController.js"
 
 // Users
 
