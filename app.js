@@ -7,6 +7,8 @@ import mongoose from "mongoose";
 import router from "./routes/api.js";
 import {MAX_JSON_SIZE, REQUEST_NUMBER, REQUEST_TIME, URL_ENCODED, WEB_CACHE, PORT} from "./configs/config.js"
 
+import DB_Connection from "./configs/db_config.js";
+
 
 const app = express();
 // const port = process.env.PORT || 3000;
@@ -25,6 +27,9 @@ app.use(limiter);
 
 // Cache
 app.set('etag',WEB_CACHE);
+
+// DB connection
+DB_Connection();
 
 
 app.listen(PORT, ()=>{
