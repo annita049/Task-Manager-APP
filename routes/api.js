@@ -4,6 +4,8 @@ const router = express.Router();
 import * as TaskController from "../controllers/TaskController.js"
 import * as UserController from "../controllers/UserController.js"
 
+import DB_Connection from "../configs/db_config.js";
+
 // Users
 
 router.post("/Registration", UserController.Registration);
