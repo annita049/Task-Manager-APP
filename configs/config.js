@@ -1,5 +1,7 @@
 export const PORT = 5050;
 
+export const DB_URL = "mongodb+srv://annita01:YJVyFga8KJXSkobC@mern.bcxyy.mongodb.net/TaskManager";
+
 export const JWT_KEY = "";
 export const JWT_EXPIRE_TIME = 30*24*60*60;
 
