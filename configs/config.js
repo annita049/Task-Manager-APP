@@ -1,9 +1,9 @@
-export const PORT = 5050;
+export const PORT = 9050;
 
 export const DB_URL = "mongodb+srv://annita01:YJVyFga8KJXSkobC@mern.bcxyy.mongodb.net/TaskManager";
 
-export const JWT_KEY = "";
-export const JWT_EXPIRE_TIME = 30*24*60*60;
+export const JWT_KEY = "ABC12341241234vb";
+export const JWT_EXPIRE_TIME = "30d";
 
 export const EMAIL_HOST = "mail.teamrabbil.com";
 export const EMAIL_PORT = 25;
