@@ -4,7 +4,6 @@ export default (req, res, next) => {
 
     let token = req.headers.token;
     let decoded_token = DecodeToken(token);
-    console.log("decoded", decoded_token);
 
     if(!decoded_token){
         res.status(401).json({status: "Unauthorized"});
