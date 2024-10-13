@@ -8,8 +8,8 @@ export const JWT_EXPIRE_TIME = "30d";
 export const EMAIL_HOST = "mail.teamrabbil.com";
 export const EMAIL_PORT = 25;
 export const EMAIL_SECURITY = false;
-export const EMAIL_USER = "info@teamrabbil.com";
-export const EMAIL_PASS = "~sR4[bhaC[Qs";
+// export const EMAIL_USER = "info@teamrabbil.com";
+// export const EMAIL_PASS = "~sR4[bhaC[Qs";
 export const EMAIL_UNAUTHORIZED = false;
 
 export const WEB_CACHE = false;
