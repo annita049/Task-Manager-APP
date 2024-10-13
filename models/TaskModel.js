@@ -5,6 +5,7 @@ const TaskSchema = new mongoose.Schema(
         title: {type: String, required: true},
         description: {type: String},
         status: {type: String, required: true},
+        priority: {type: String, required: true},
         user_id: {type: mongoose.Schema.Types.ObjectId, required: true},
     },
     {
