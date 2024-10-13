@@ -1,15 +1,13 @@
 import nodemailer from "nodemailer"
-import dotenv from 'dotenv';
-dotenv.config();  // to load environment variables from .env file
 
-import { EMAIL_HOST, EMAIL_PORT, EMAIL_SECURITY } from "../configs/config.js"
+import { EMAIL_USER, EMAIL_PASS } from "../configs/config.js";
 
 const SendEmail = async(EmailTo, EmailSubject, EmailText)=> {
 
     let transporter = nodemailer.createTransport({
-        // host: EMAIL_HOST,
-        // port: EMAIL_PORT,
-        // secure: EMAIL_SECURITY,
+        // host: process.env.EMAIL_HOST,
+        // port: process.env.EMAIL_PORT,
+        // secure: process.env.EMAIL_SECURITY,
         service: 'gmail',
         auth: {
             user: process.env.EMAIL_USER,
@@ -21,7 +19,7 @@ const SendEmail = async(EmailTo, EmailSubject, EmailText)=> {
     });
 
     let mailOptions = {
-        from: "Task Manager APP <e.annita2001@gmail.com>",
+        from: "Task Manager APP <info@teamrabbil.com>",
         to: EmailTo,
         subject: EmailSubject,
         text: EmailText

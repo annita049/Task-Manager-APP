@@ -13,7 +13,6 @@ export const DecodeToken = (token)=> {
         return jwt.verify(token, JWT_KEY);
     }
     catch(e){
-        console.log("nai kisU");
         return null;
     }
 }
