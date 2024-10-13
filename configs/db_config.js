@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-import dotenv from 'dotenv';
-dotenv.config();
+import { DB_URL } from "./config.js";
 
 const DB_connection = ()=> {
     
