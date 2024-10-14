@@ -13,11 +13,15 @@ router.post("/Registration", UserController.Registration);
 router.post("/Login", UserController.Login);
 router.get("/ProfileDetails", AuthMiddleware, UserController.ProfileDetails);
 router.post("/UpdateProfile", AuthMiddleware, UserController.UpdateProfile);
-router.get("/VerifyEmail/:email", UserController.VerifyEmail);
-router.post("/VerifyCode", UserController.VerifyCode);
-router.post("/ResetPassword", UserController.ResetPassword);
+// router.get("/VerifyEmail/:email", UserController.VerifyEmail);
 
-// Task Routes -----------
+// user verifies email with OTP when logged in
+router.post("/VerifyEmail", AuthMiddleware, UserController.VerifyEmail);
+
+// user requests password reset when not logged in
+router.post("/RequestPasswordReset", UserController.RequestPasswordReset);
+
+// ------------- Task Routes -----------
 
 router.post("/CreateTask", AuthMiddleware, TaskController.CreateTask);
 router.get("/UpdateTaskStatus", AuthMiddleware, TaskController.UpdateTaskStatus);
