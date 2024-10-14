@@ -2,7 +2,7 @@ import nodemailer from "nodemailer"
 
 import { EMAIL_USER, EMAIL_PASS } from "../configs/config.js";
 
-const SendEmail = async(EmailTo, EmailSubject, EmailText)=> {
+const SendEmail = async(EmailTo, EmailSubject, EmailContent)=> {
 
     let transporter = nodemailer.createTransport({
         // host: process.env.EMAIL_HOST,
@@ -22,7 +22,7 @@ const SendEmail = async(EmailTo, EmailSubject, EmailText)=> {
         from: "Task Manager APP <info@teamrabbil.com>",
         to: EmailTo,
         subject: EmailSubject,
-        text: EmailText
+        text: EmailContent
     }
     return await transporter.sendMail(mailOptions);
 }
