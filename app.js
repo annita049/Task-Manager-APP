@@ -18,8 +18,10 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 app.use(express.json({limit: MAX_JSON_SIZE}));
-app.use(express.urlencoded({extended: URL_ENCODED}));
+app.use(express.urlencoded({extended: URL_ENCODED})); //set to true
 app.use('/api', router);
+app.set('view engine', 'ejs');
+app.set("views",__dirname + "/views")  // view path
 
 // Rate Limiter
 const limiter = rateLimit({windowMs: REQUEST_TIME, max: REQUEST_NUMBER});
