@@ -38,9 +38,8 @@ export const Registration = async (req, res) => {
             firstname,
             lastname,
             password,
-            // otp,
-            // otpExpiration: Date.now() + 10 * 60 * 1000
         });
+        
         await user.save();
 
         await SendOTP(user);
