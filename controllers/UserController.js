@@ -52,28 +52,45 @@ export const Registration = async (req, res) => {
 }
 
 export const Login = async (req, res)=> {
-    try {
-        const user = await UserModel.findOne({email: req.body.email});
-        console.log(user);
-
-        if(!user){
-            return res.status(400).json({status:"fail", message: "User not found!" });
-        }
-
-        // if (!user.isVerified) {
-        //     return res.status(401).json({status: "fail", message: 'Email not verified. Please verify your email first' });
-        // }
-
-        const isMatch = await bcrypt.compare(req.body.password, user.password);
-        if(!isMatch){
-            return res.status(400).json({status:"fail", message: 'Wrong password'});
-        }
-        let token = EncodeToken(user.email, user._id);
-        // console.log(token);
-        res.status(200).json({status: "success", message: "Login Successful, user found!", user, token});
+    if (req.method === 'GET'){
+        res.render('login');
     }
-    catch(err){
-        res.status(500).json({status: "fail", message: err.toString()});
+    if (req.method === 'POST'){
+        try {
+            console.log(req.body.email);
+            const user = await UserModel.findOne({email: req.body.email});
+            console.log(user);
+    
+            if(!user){
+                return res.status(400).json({status:"fail", message: "User not found!" }); // show alerts on the same page (login)
+            }
+    
+            // if (!user.isVerified) {
+            //     return res.status(401).json({status: "fail", message: 'Email not verified. Please verify your email first' });
+            // }
+    
+            const isMatch = await bcrypt.compare(req.body.password, user.password);
+            if(!isMatch){
+                return res.status(400).json({status:"fail", message: 'Wrong password'});
+            }
+    
+            let token = EncodeToken(user.email, user._id);
+
+            res.cookie('Token', token, { 
+                httpOnly: true, 
+                secure: false,  // Only set secure in production
+                maxAge: 30 * 24 * 60 * 60 * 1000  // 30 days
+            });
+            // console.log('Cookie sent:', res.getHeaders());
+            console.log("im cookie", req.cookies);
+    
+            // res.status(200).json({status: "success", message: "Login Successful, user found!", user, token});
+            res.render('home', user);
+        }
+        
+        catch(err){
+            res.status(500).json({status: "fail", message: err.toString()});
+        }
     }
 }
 
@@ -113,6 +130,16 @@ export const UpdateProfile = async (req, res)=> {
     }
     catch(e){
         res.status(500).json({status: "fail", message: e.toString()});
+    }
+}
+
+export const Logout = async (req, res)=> {
+    try {
+        res.clearCookie('Token');
+        res.status(200).json({status: 'success', message: 'Logged out successfully'});
+    }
+    catch(e){
+        res.status(500).json({status: 'fail', message: e.toString()});
     }
 }
 

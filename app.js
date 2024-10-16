@@ -2,33 +2,47 @@ import express from "express"
 import cors from "cors";
 import ratelimit, { rateLimit } from "express-rate-limit";
 import helmet from "helmet";
-import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
+// import mongoose from "mongoose";
 
 import router from "./routes/api.js";
 import {MAX_JSON_SIZE, REQUEST_NUMBER, REQUEST_TIME, URL_ENCODED, WEB_CACHE, PORT} from "./configs/config.js"
 
 import DB_Connection from "./configs/db_config.js";
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-// const port = process.env.PORT || 3000;
-
 
 // default middlewares
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({
+    origin: `http://localhost:${PORT}`, 
+    credentials: true,
+}));
 app.use(helmet());
+// app.use(express.json());
 app.use(express.json({limit: MAX_JSON_SIZE}));
-app.use(express.urlencoded({extended: URL_ENCODED})); //set to true
-app.use('/api', router);
+app.use(express.urlencoded({extended: true})); //set to true
+app.use(express.static('public'));
+
 app.set('view engine', 'ejs');
-app.set("views",__dirname + "/views")  // view path
+app.set("views", path.join(__dirname, "views"));
+
+app.use('', router);
+
+// app.use('/api', router);
 
 // Rate Limiter
-const limiter = rateLimit({windowMs: REQUEST_TIME, max: REQUEST_NUMBER});
-app.use(limiter);
+// const limiter = rateLimit({windowMs: REQUEST_TIME, max: REQUEST_NUMBER});
+// app.use(limiter);
 
 // Cache
-app.set('etag',WEB_CACHE);
+// app.set('etag',WEB_CACHE);
 
 // DB connection
 DB_Connection();
