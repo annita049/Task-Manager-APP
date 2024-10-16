@@ -7,22 +7,25 @@ import * as UserController from "../controllers/UserController.js"
 import DB_Connection from "../configs/db_config.js";
 import AuthMiddleware from "../middlewares/AuthMiddleware.js";
 
+// HomePage -----------
 
-router.get("/", async(req, res)=>{
-    res.render('guest_home');
+router.get("/Home", async (req, res) => {
+    if (req.cookies.Token) {
+        res.render('home', { user: req.user });
+    }
+    else {
+        res.render('guest_home');
+    }
 });
+
 
 // Users Routes -----------
 
 router.post("/Registration", UserController.Registration);
-router
-router.post("/Login", UserController.Login);
-router.get("/Login", UserController.Login);
 
-// HomePage -----------
-router.get("/Home", AuthMiddleware, (req, res)=>{
-    res.render('home', {user: req.user});
-});
+router.get("/Login", UserController.getLoginPage);
+router.post("/Login", UserController.HandleLogin);
+
 
 router.get("/ProfileDetails", AuthMiddleware, UserController.ProfileDetails);
 router.post("/UpdateProfile", AuthMiddleware, UserController.UpdateProfile);
@@ -36,15 +39,13 @@ router.post("/VerifyEmail", AuthMiddleware, UserController.VerifyEmail);
 router.post("/RequestPasswordReset", UserController.RequestPasswordReset);
 
 
-
-
 // ------------- Task Routes -----------
 
 router.post("/CreateTask", AuthMiddleware, TaskController.CreateTask);
 
-router.route("/UpdateTask/:id")
-    .get(AuthMiddleware, TaskController.UpdateTask)
-    .post(AuthMiddleware, TaskController.UpdateTask);
+router.get("/UpdateTask/:id", AuthMiddleware, TaskController.GetTaskbyID);
+router.post("/UpdateTask/:id", AuthMiddleware, TaskController.UpdateTask);
+
 router.get("/DeleteTask/:id", AuthMiddleware, TaskController.DeleteTask);
 
 router.get("/AllTaskList", AuthMiddleware, TaskController.AllTaskList);

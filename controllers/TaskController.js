@@ -34,44 +34,49 @@ export const AllTaskList = async (req, res) => {
             return res.status(404).json({status:'fail', message: 'No Task found!' });
         }
 
-        res.json({status:'success', message: 'All Tasks you have created', tasks: all_task});
+        res.status(200).json({status:'success', message: 'All Tasks you have created', tasks: all_task});
     }
     catch (e) {
-        res.status(500).json({ status:'fail', message: e.toString()});
+        res.status(500).json({status:'fail', message: e.toString()});
     }
 };
 
+
+export const GetTaskbyID = async (req, res)=> {
+    try {
+        const task_id = req.params.id;
+        const user_id = req.user.user_id;
+        const task = await TaskModel.findOne({_id: task_id, user_id});
+
+        if (!task) {
+            return res.status(404).json({status: 'fail', message: 'Task not found or unauthorized'});
+        }
+        res.json({status: 'success', task});
+    }
+    catch(e){
+        console.log("hoy na bhai.");
+        res.status(500).json({status: 'fail', message: e.toString()});
+    }
+}
 
 export const UpdateTask = async (req, res)=> {
     try {
         const task_id = req.params.id; 
         const user_id = req.user.user_id;
 
-        if (req.method === 'GET') {
-            const task = await TaskModel.findOne({_id: task_id, user_id});
+        const updatedData = req.body;
+        const updatedTask = await TaskModel.findOneAndUpdate(
+            {_id: task_id, user_id},
+            updatedData,
+            {new: true}
+        );
 
-            if (!task) {
-                return res.status(404).json({ message: 'Task not found or unauthorized'});
-            }
-            res.json(task);
-
-            // return res.render('UpdateTask', {task});
+        if (!updatedTask) {
+            return res.status(404).json({status: "fail", message: 'Task not found or unauthorized'});
         }
+        res.json(updatedTask);
+        // res.redirect(`/tasks/${taskId}/edit`);
 
-        if (req.method === 'POST') {
-            const updatedData = req.body;
-            const updatedTask = await TaskModel.findOneAndUpdate(
-                {_id: task_id, user_id},
-                updatedData,
-                {new: true}
-            );
-
-            if (!updatedTask) {
-                return res.status(404).json({status: "fail", message: 'Task not found or unauthorized'});
-            }
-            res.json(updatedTask);
-            // res.redirect(`/tasks/${taskId}/edit`);
-        }
     }
     catch (e) {
         res.status(500).json({status: "fail", message: e.toString()});

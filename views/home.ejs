@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
 
   <!-- Bootstrap and Font Awesome CDN Links -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Google Fonts -->
@@ -17,237 +18,30 @@
 
   <!-- Custom CSS Sheets -->
 
-  <link rel="stylesheet" href="/css/home.css">
-  
-  <!-- Bootstrap and Font Awesome JS CDN -->
-  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-  <title>Task Manager</title>
+  <link rel="stylesheet" href="CSS/home.css">
+  <link rel="stylesheet" href="CSS/popup.css">
+ 
 </head>
 <body>
+    <!-- Navbar -->
+    <%- include('partials/topper') %>
 
-<!-- Navbar -->
-<nav class="navbar navbar-light px-4">
-  <a class="navbar-brand text-dark" href="#">
-    <img src="../pics/todo-logo.png" alt="Logo" style="width: 70px;">
-  </a>
-  <span class="navbar-text text-dark">
-    <i class="fas fa-user"></i>
-    <div class="dropdown d-inline">
-      <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-        Username
-      </button>
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item" href="#">View Profile</a></li>
-        <li><a class="dropdown-item" href="#">Logout</a></li>
-      </ul>
-    </div>
-  </span>
-</nav>
-
-<div class="container-fluid">
-  <div class="row">
-    
-    <!-- Sidebar -->
-    <div class="col-2 sidebar pt-5 ps-1">
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link active" href="#">
-            <i class="fa-solid fa-house fs-5 me-3"></i>
-            <span class="nav-text">Home</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="fa-solid fa-list-check fs-5 me-3"></i>
-            <span class="nav-text">All Tasks</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="fa-solid fa-circle-check fs-5 me-3"></i>
-            <span class="nav-text">Completed</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <!-- <i class="fa-solid fa-spinner fs-5 me-3"></i> -->
-            <i class="fa-solid fa-hourglass-half fs-5 me-3"></i>
-            <span class="nav-text">In Progress</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <!-- <i class="fa-regular fa-clock fs-5 me-3"></i> -->
-            <i class="fa-solid fa-clock-rotate-left fs-5 me-3"></i>
-            <span class="nav-text">Pending</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Main Content -->
-    <div class="col-10 px-5 pt-2">
-      <!-- Task Counts -->
-      <div class="row mb-3">
-        <div class="col task-count-box">
-            <div class="row">
-                <div class="col-7">
-                    <p class="lead task-count">Total Tasks: 14</p>
-                </div>
-                <div class="col-5">
-                    <img src="../pics/tasks.png" alt="Task Icon" class="task-icon">
-                </div>
-            </div>
-        </div>
-        <div class="col task-count-box">
-            <div class="row">
-                <div class="col-7">
-                    <p class="lead task-count">Completed: 2</p>
-                </div>
-                <div class="col-5">
-                    <img src="../pics/completed-task.png" alt="Task Icon" class="task-icon">
-                </div>
-            </div>
-        </div>
-        <div class="col task-count-box">
-            <div class="row">
-                <div class="col-7">
-                    <p class="lead task-count">In Progress: 6</p>
-                </div>
-                <div class="col-5">
-                    <img src="../pics/work-in-progress.png" alt="Task Icon" class="task-icon">
-                </div>
-            </div>
-        </div>
-        <div class="col task-count-box">
-            <div class="row">
-                <div class="col-7">
-                    <p class="lead task-count">Pending: 6</p>
-                </div>
-                <div class="col-5">
-                    <img src="../pics/pending clock.png" alt="Task Icon" class="task-icon">
-                </div>
-            </div>
-        </div>
-      </div>
-
-      <!-- Centered Task Board -->
-      <div class="content-container">
-        <div class="d-flex justify-content-between align-items-center mb-2 w-100">
-            <div class="search-bar">
-                <input type="text" class="form-control" placeholder="Search tasks...">
-                <button class="search-btn">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-
-            <a type="button" onclick="AddStudent('_id')" class="btn btn-dark create-task-btn" data-bs-toggle="modal" data-bs-target="#CreateTaskModal">
-                <i class="fa-solid fa-plus"></i>
-                <span>Add student</span>
-            </a>
-        </div>
-
-        <!-- Task Board -->
-        <div class="task-board">
-            <div class="task-box">
-              <div class="task-title">Task 1</div>
-              <div class="task-description">This is a brief description of Task 1.</div>
-              <div class="edit-delete-icons">
-                <i class="fa-solid fa-pen"></i>
-                <i class="fas fa-trash-alt"></i>
-              </div>
-              <div class="task-footer">
-                <span class="task-status">Completed</span>
-                <span class="task-priority" id="high">High</span>
-              </div>
-            </div>
-            
-            <div class="task-box">
-              <div class="task-title">Task 2</div>
-              <div class="task-description">This is a brief description of Task 2.</div>
-              <div class="edit-delete-icons">
-                <i class="fa-solid fa-pen"></i>
-                <i class="fas fa-trash-alt"></i>
-              </div>
-              <div class="task-footer">
-                <span class="task-status">In Progress</span>
-                <span class="task-priority" id="low">Low</span>
-              </div>
-            </div>
-            
-            <div class="task-box">
-                <div class="task-title">Task 1</div>
-                <div class="task-description">This is a brief description of Task 1.</div>
-                <div class="edit-delete-icons">
-                  <i class="fa-solid fa-pen"></i>
-                  <i class="fas fa-trash-alt"></i>
-                </div>
-                <div class="task-footer">
-                  <span class="task-status">Completed</span>
-                  <span class="task-priority" id="high">High</span>
-                </div>
-            </div>
-
-            <div class="task-box">
-              <div class="task-title">Task 4</div>
-              <div class="task-description">This is a brief description of Task 4.</div>
-              <div class="edit-delete-icons">
-                <i class="fa-solid fa-pen"></i>
-                <i class="fas fa-trash-alt"></i>
-              </div>
-              <div class="task-footer">
-                <span class="task-status">Completed</span>
-                <span class="task-priority" id="medium">Medium</span>
-              </div>
-            </div>
-          </div>          
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- modal -->
-<div class="modal fade" id="CreateTaskModal" tabindex="-1" aria-labelledby="CreateTaskModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-            </div>
-            <div class="modal-body">
-                <form id="modalForm" action="" method="POST">
-                    <input type="hidden" value="" name="_id" id="_id">
-                    <div class="mb-3">
-                        <label for="title" class="col-form-label">Title:</label>
-                        <input required type="text" class="form-control" id="title" value="" name="title" placeholder="Enter Task Title">
-                    </div>
-                    <div class="mb-3">
-                        <label for="description" class="col-form-label">Description:</label>
-                        <input type="text" class="form-control" value="" id="description" name="description" placeholder="Enter Task Description">
-                    </div>
-                    <div class="mb-3">
-                        <label for="status" class="col-sm-2 col-form-label">Status:</label>
-                        <select required class="form-select form-control" id="status" value="Task Status" name="status">
-                            <option value="Pending">Pending</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="Completed">Completed</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="priority" class="col-sm-2 col-form-label">Priority:</label>
-                        <select required class="form-select form-control" id="priority" value="Task Priority" name="priority">
-                            <option value="low" data-value="Low" style="color: #f39c12;" id="low">Low</option>
-                            <option value="medium" data-value="Low" style="color: #497ce3;" id="medium">Medium</option>
-                            <option value="High"  data-value="high" style="color: #018501;" id="high">High</option>
-                        </select>
-                    </div>
-                    <input type="submit" class="btn btn-dark my-4 form-submit" value="Save">
-                </form>
+    <div class="container-fluid">
+        <div class="row">
+            <%- include('partials/sidebar') %>
+            <div class="col-10 px-5 pt-2">
+                <%- include('partials/task_counts') %>     
+                <%- include('layouts/home') %>       
             </div>
         </div>
     </div>
-</div>
 
+    <!-- Popup -->
+    <%- include('partials/popup') %>
+
+<script src="JS/home.js"></script>
+<script src="JS/popup.js"></script>
+<!-- Bootstrap and Font Awesome JS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

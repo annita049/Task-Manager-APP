@@ -20,10 +20,10 @@ const app = express();
 
 // default middlewares
 app.use(cookieParser());
-app.use(cors({
-    origin: `http://localhost:${PORT}`, 
-    credentials: true,
-}));
+// app.use(cors({
+//     origin: `http://localhost:${PORT}`, 
+//     credentials: true,
+// }));
 app.use(helmet());
 // app.use(express.json());
 app.use(express.json({limit: MAX_JSON_SIZE}));

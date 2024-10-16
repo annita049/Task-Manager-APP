@@ -51,29 +51,30 @@ export const Registration = async (req, res) => {
     }
 }
 
-export const Login = async (req, res)=> {
-    if (req.method === 'GET'){
-        res.render('login');
-    }
-    if (req.method === 'POST'){
-        try {
-            console.log(req.body.email);
-            const user = await UserModel.findOne({email: req.body.email});
-            console.log(user);
+export const getLoginPage = async (req, res)=>{
+    res.render('login');
+}
+
+export const HandleLogin = async (req, res)=> {
+    try {
+        console.log(req.body.email);
+        const user = await UserModel.findOne({email: req.body.email});
+        console.log('user-->', user);
     
-            if(!user){
-                return res.status(400).json({status:"fail", message: "User not found!" }); // show alerts on the same page (login)
-            }
-    
-            // if (!user.isVerified) {
-            //     return res.status(401).json({status: "fail", message: 'Email not verified. Please verify your email first' });
-            // }
-    
-            const isMatch = await bcrypt.compare(req.body.password, user.password);
-            if(!isMatch){
-                return res.status(400).json({status:"fail", message: 'Wrong password'});
-            }
-    
+        if(!user){
+            res.render('login', {error: 'Invalid Email or Password!'});
+            // return res.status(400).json({status:"fail", message: "User not found!" }); // show alerts on the same page (login)
+        }
+        else if (!await bcrypt.compare(req.body.password, user.password)) {
+            // const isMatch = await bcrypt.compare(req.body.password, user.password); 
+            res.render('login', {error: 'Invalid Email or Password!'});
+        }
+        // if (!user.isVerified) {
+        //     return res.status(401).json({status: "fail", message: 'Email not verified. Please verify your email first'});
+        // }
+
+        else {
+                    
             let token = EncodeToken(user.email, user._id);
 
             res.cookie('Token', token, { 
@@ -83,14 +84,15 @@ export const Login = async (req, res)=> {
             });
             // console.log('Cookie sent:', res.getHeaders());
             console.log("im cookie", req.cookies);
-    
             // res.status(200).json({status: "success", message: "Login Successful, user found!", user, token});
-            res.render('home', user);
+            // if(token)
+            res.redirect('/Home');
         }
-        
-        catch(err){
-            res.status(500).json({status: "fail", message: err.toString()});
-        }
+    }
+    
+    catch(err){
+        res.status(500).json({status: "fail", message: err.toString()});
+        // res.status(500).send(`<h2>Server Error</h2>`)
     }
 }
 

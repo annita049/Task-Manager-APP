@@ -10,3 +10,4 @@ togglePassword.addEventListener('click', function () {
 });
 passwordInput.value="";
 passwordInput.blur();
+
