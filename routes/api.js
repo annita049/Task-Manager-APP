@@ -18,6 +18,9 @@ router.get("/Home", async (req, res) => {
     }
 });
 
+router.get("/Task/Completed", AuthMiddleware, (req, res) => {
+    res.render('completed_tasks');
+});
 
 // Users Routes -----------
 
@@ -49,7 +52,10 @@ router.post("/UpdateTask/:id", AuthMiddleware, TaskController.UpdateTask);
 router.get("/DeleteTask/:id", AuthMiddleware, TaskController.DeleteTask);
 
 router.get("/AllTaskList", AuthMiddleware, TaskController.AllTaskList);
-router.get("/TaskListByStatus/:status", AuthMiddleware, TaskController.TaskListByStatus);
+// router.get("/TaskListByStatus/:status", AuthMiddleware, TaskController.TaskListByStatus);
+
+router.get("/Task/:status", AuthMiddleware, TaskController.TaskListByStatus);
+
 router.get("/CountTask", AuthMiddleware, TaskController.CountTask);
 
 router.get("/SortTaskByPriority/:status", AuthMiddleware, TaskController.SortTaskByPriority); // based on a status

@@ -2,9 +2,13 @@
     <div class="popup-content">
         <!-- <span class="close" id="closePopup">&times;</span> -->
         <i class="fa-solid fa-xmark close" id="closePopup"></i>
-        <h2 class="from-title my-3">Create New Task</h2>
+        <h2 class="from-title my-3"></h2>
         <hr>
-        <form id="taskForm">
+        <form id="taskForm" action="" method="POST">
+
+            <!-- hidden input for getting id -->
+            <input type="hidden" id="taskid" name="taskId">
+
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" required>
 
@@ -13,6 +17,7 @@
 
             <label for="status">Status:</label>
             <select id="status" name="status">
+                <option value="" disabled selected>Select Status</option>
                 <option value="Pending">Pending</option>
                 <option value="In Progress">In Progress</option>
                 <option value="Completed">Completed</option>
@@ -20,6 +25,7 @@
 
             <label for="priority">Priority:</label>
             <select id="priority" name="priority">
+                <option value="" disabled selected>Select Priority</option>
                 <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
                 <option value="High">High</option>

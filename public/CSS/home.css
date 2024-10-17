@@ -18,7 +18,7 @@ body {
 /* Sidebar Styling */
 .sidebar {
     margin-top: 20px;
-    height: 80vh;
+    height: 85vh;
     background-color: #f8f9fa; /* Light background */
     padding: 0; /* No padding to align items properly */
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
@@ -123,22 +123,37 @@ body {
     overflow-y: scroll;
 }
 
-/* Responsive for smaller screens */
-@media (max-width: 992px) {
+@media (max-width: 1350px) {
     .task-board {
         grid-template-columns: repeat(2, 1fr); 
     }
+}    
+
+@media (max-width: 1200px) {
+    .nav-text {
+        display: none;
+    }
+    .task-footer {
+        margin-top: 50px;
+    }
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 992px) {
     .task-count {
         font-size: 1rem;
     }
     .create-task-btn-name {
         display: none;
     }
-    .nav-text {
-        display: none;
-    }
     .nav-link {
         padding-left: 10px;
+    }
+    .task-priority {
+        display: none;
+    }
+    .priority-indicator {
+        display: block;
     }
 }
 
@@ -180,15 +195,27 @@ body {
     padding: 2px 7px;
     border-radius: 4px;
 }
-.task-priority#high{
+
+.priority-indicator {
+    position: relative;
+    bottom: -5px;
+    border-radius: 50%;
+    height: 8px;
+    width: 8px;
+    display: none;
+}
+
+.task-priority#high , .priority-indicator#high{
     background-color: #018501;
 }
-.task-priority#low{
+.task-priority#low, .priority-indicator#low{
     background-color: #f39c12;
 }
-.task-priority#medium{
+.task-priority#medium, .priority-indicator#medium{
     background-color: #497ce3;
 }
+
+
 .task-box {
     background-color: #fff; 
     padding: 20px;
@@ -203,6 +230,12 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease; 
     cursor: pointer;
     min-height: 170px;
+    max-width: 400px;
+    overflow: hidden;
+    /* white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; */
+    /* min-width: 200px; */
 }
 
 .task-box:hover {
@@ -212,7 +245,6 @@ body {
 .task-box:hover .edit-delete-icons {
     opacity: 1; 
 }
-
 
 
 
@@ -257,9 +289,10 @@ body {
 }
 
 .search-btn {
-    background-color: #497ce3; /* Background for button */
-    border: none; /* No border */
-    color: white; /* White text */
+    background-color: #497ce3; 
+    /* background-color: var(--purple); */
+    border: none; 
+    color: #fff;
     width: 50px;
     padding: 0 18px;
     height: 38px;
@@ -282,21 +315,26 @@ body {
     text-align: start;
     font-size: 18px;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 10px;  
+    overflow: hidden;
+    text-overflow: ellipsis; 
 }
 
 .task-description {
     text-align: start;
     margin-bottom: 14px;
     color: #777;
-    font-size: 15px;
+    font-size: 13px;
+    height: 38px;
+    overflow: hidden;
+    text-overflow: ellipsis; 
 }
 
 .task-footer {
     display: flex;
     position: absolute;
     /* margin-top: 50px; */
-    bottom: 20px;
+    bottom: 10px;
     gap: 20px;
     justify-content: space-between;
     font-size: 14px;

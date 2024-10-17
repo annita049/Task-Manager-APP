@@ -16,10 +16,12 @@ export const CreateTask = async (req, res) => {
         });
 
         await task.save();
-        res.status(201).json({status: 'success', message: 'Task created successfully', task});
+        res.redirect('/Home');
+        // res.status(201).json({status: 'success', message: 'Task created successfully', task});
     }
     catch (e) {
-        res.status(500).json({status: 'fail', message: e.toString()});
+        // res.status(500).json({status: 'fail', message: e.toString()});
+        res.status(500).send("Server Error");
     }
 };
 
@@ -28,12 +30,13 @@ export const AllTaskList = async (req, res) => {
         const user_id = req.user.user_id;
         const all_task = await TaskModel.find({user_id});
 
-        console.log(all_task);
+        // console.log(all_task);
 
         if (all_task.length === 0) {
             return res.status(404).json({status:'fail', message: 'No Task found!' });
         }
 
+        // res.render(all_tasks, task: all_task);
         res.status(200).json({status:'success', message: 'All Tasks you have created', tasks: all_task});
     }
     catch (e) {
@@ -46,11 +49,19 @@ export const GetTaskbyID = async (req, res)=> {
     try {
         const task_id = req.params.id;
         const user_id = req.user.user_id;
+        console.log(task_id, user_id);
         const task = await TaskModel.findOne({_id: task_id, user_id});
 
+        if (!mongoose.Types.ObjectId.isValid(task_id)) {
+            console.log(":(((");
+            return res.status(400).json({ status: 'fail', message: 'Invalid task ID format' });
+        }
         if (!task) {
             return res.status(404).json({status: 'fail', message: 'Task not found or unauthorized'});
         }
+        
+        console.log("task is valid");
+
         res.json({status: 'success', task});
     }
     catch(e){
@@ -71,12 +82,14 @@ export const UpdateTask = async (req, res)=> {
             {new: true}
         );
 
+        console.log();
         if (!updatedTask) {
             return res.status(404).json({status: "fail", message: 'Task not found or unauthorized'});
         }
-        res.json(updatedTask);
-        // res.redirect(`/tasks/${taskId}/edit`);
-
+        console.log("update hoise");
+        // res.render('home', {status: 'success', message: 'Task Successfully Updated'});
+        res.redirect('/Home');
+        // res.json({status: "success", message: 'Task updated!'});
     }
     catch (e) {
         res.status(500).json({status: "fail", message: e.toString()});
@@ -93,7 +106,7 @@ export const DeleteTask = async (req, res)=> {
         if (!task) {
             return res.status(404).json({status: 'fail', message: 'Task not found or unauthorized' });
         }
-        res.json({status: 'success', message: 'Task Deleted successfully' });
+        res.json({status: 'success', message: 'Task Deleted successfully'});
     }
     catch (e) {
         res.status(500).json({status: 'fail', message: e.toString()});
@@ -106,7 +119,20 @@ export const TaskListByStatus = async (req, res)=> {
         const user_id = req.user.user_id;
 
         const tasks = await TaskModel.find({user_id, status});
-        res.json({status: 'fail', tasks});
+
+        // if (status === 'Completed') {
+        //     res.render('completed_tasks', {tasks});
+        // }
+        if (status === 'Pending') {
+            res.render('pending_tasks', {tasks});
+        }
+        else if (status === 'In Progress') {
+            res.render('inprogress_tasks', {tasks});
+        }
+        else {
+            res.status(400).json({status: 'fail', message: 'Invalid status' });
+        }
+        // res.json({status: 'success', tasks});
     }
     catch (e) {
         res.status(500).json({status: 'fail', message: e.toString()});

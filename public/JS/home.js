@@ -1,9 +1,35 @@
-// document.querySelector('#CreateTaskModal .modal-title').textContent= "Create New Task";
+// document.querySelector('#popupModal .modal-title').textContent= "Create New Task";
 
+let editMode = false;
+
+function clearForm() {
+    document.getElementById('taskid').value = '';
+    document.getElementById('title').value = '';
+    document.getElementById('description').value = '';
+    document.getElementById('status').value = '';
+    document.getElementById('priority').value = '';
+}
+
+document.getElementById('createTask').addEventListener('click', function() {
+    clearForm();
+    document.getElementById('popupForm').style.display = 'block';
+    document.querySelector('.from-title').textContent = 'Create a Task';
+    document.getElementById('taskForm').action = '/CreateTask';
+});
 
 function UpdateTask(taskId){
     console.log("jobbie");
     console.log(taskId);
+    document.querySelector('.from-title').textContent = "Update Task";
+    document.getElementById('taskForm').action = `UpdateTask/${taskId}`;
+    
+    editMode = true;
+
+    // console.log(document.getElementById('taskForm'));
+    // taskForm.action = `/UpdateTask/${taskId}`
+    // console.log(taskForm.action);
+
+    // fetching old values ...
     fetch(`/UpdateTask/${taskId}`)
         .then(response => response.json())
         .then(data => {
@@ -12,7 +38,9 @@ function UpdateTask(taskId){
                 document.getElementById('description').value = data.task.description;
                 document.getElementById('status').value = data.task.status;
                 document.getElementById('priority').value = data.task.priority;
-
+                document.getElementById('taskid').value = data.task._id;
+                
+                console.log("we successfully fetched all data by id");
             }
             else {
                 console.error('Error fetching task data:', data.message);
@@ -21,7 +49,30 @@ function UpdateTask(taskId){
         .catch(error => {
             console.error('Error fetching task data:', error);
         });
+    // updating new values and submit
+}
 
+async function DeleteTask(taskId){ //obejct unique id
+    if(confirm('Are you sure to delete this Task ?')){
+        try {
+            console.log("delete taskid", taskId);
+            let Response = await fetch(`/DeleteTask/${taskId}`);
+            Response = await Response.json();
+    
+            if (Response.status === 'success'){
+                console.log("yes deleted");
+                location.reload();
+            }
+            else {
+                console.log("Can't delete task!");
+            }
+        }
+        catch (error) {
+            // document.getElementById('task-board').innerHTML = "holy error!"
+            console.log("cant just");
+            console.error('Error fetching tasks:', error);
+        }
+    }
 }
 
 async function TaskCounts() {
@@ -57,8 +108,12 @@ async function AllTaskList() {
                 taskBox.className = 'task-box';
 
                 taskBox.innerHTML = 
-                `<div class="task-title">${task.title}</div>
-                <div class="task-description">${task.description}</div>
+                `<div class="taskbox-header">
+                    <div class="task-title">${task.title}</div>
+                </div>
+                <div class="taskbox-body">
+                    <div class="task-description">${task.description}</div>
+                </div>
                 <div class="edit-delete-icons">
                     <a href="#" id="updateTask-${task._id}"><i class="fa-solid fa-pen"></i></a>
                     <a href="#" id="deleteTask-${task._id}"><i class="fas fa-trash-alt"></i></a>
@@ -66,6 +121,7 @@ async function AllTaskList() {
                 <div class="task-footer">
                     <span class="task-status" id="${task.status.toLowerCase()}">${task.status}</span>
                     <span class="task-priority" id="${task.priority.toLowerCase()}">${task.priority}</span>
+                    <div class="priority-indicator" id="${task.priority.toLowerCase()}"></div>
                 </div>`
                 taskBoard.appendChild(taskBox);
 
@@ -76,7 +132,7 @@ async function AllTaskList() {
                 });
 
                 document.getElementById(`deleteTask-${task._id}`).addEventListener('click', () => {
-                    document.getElementById('popupForm').style.display = 'block';
+                    // document.getElementById('popupForm').style.display = 'block';
                     DeleteTask(task._id);
                 });
             });
@@ -96,10 +152,20 @@ window.addEventListener('DOMContentLoaded', () => {
     AllTaskList();
 });
 
-// document.getElementById('updateTask').addEventListener('click', function() {
-    
-// });
+const taskForm = document.getElementById('taskForm');
+console.log(popupForm);
 
-// document.getElementById(`deleteTask-${task._id}`).addEventListener('click', function() {
-//     DeleteTask(task._id);
+// taskForm.addEventListener('submit', function(event) {
+//     event.preventDefault();
+
+//     if (editMode) {
+//         const taskId = document.getElementById('taskid').value;
+//         console.log(taskId);
+//         taskForm.action = `/UpdateTask/${taskId}`;
+//         console.log('editMode-->', editMode);
+//         console.log(taskForm.action);
+//     } else {
+//         taskForm.action = '/CreateTask';
+//     }
+//     taskForm.submit();
 // });
