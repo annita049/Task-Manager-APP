@@ -115,8 +115,8 @@ async function AllTaskList() {
                     <div class="task-description">${task.description}</div>
                 </div>
                 <div class="edit-delete-icons">
-                    <a href="#" id="updateTask-${task._id}"><i class="fa-solid fa-pen"></i></a>
-                    <a href="#" id="deleteTask-${task._id}"><i class="fas fa-trash-alt"></i></a>
+                    <a id="updateTask-${task._id}"><i class="fa-solid fa-pen"></i></a>
+                    <a id="deleteTask-${task._id}"><i class="fas fa-trash-alt"></i></a>
                 </div>
                 <div class="task-footer">
                     <span class="task-status" id="${task.status.toLowerCase()}">${task.status}</span>
@@ -152,8 +152,8 @@ window.addEventListener('DOMContentLoaded', () => {
     AllTaskList();
 });
 
-const taskForm = document.getElementById('taskForm');
-console.log(popupForm);
+// const taskForm = document.getElementById('taskForm');
+// console.log(popupForm);
 
 // taskForm.addEventListener('submit', function(event) {
 //     event.preventDefault();

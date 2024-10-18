@@ -36,13 +36,14 @@ export const AllTaskList = async (req, res) => {
             return res.status(404).json({status:'fail', message: 'No Task found!' });
         }
 
-        // res.render(all_tasks, task: all_task);
+        // res.render('all_tasks', {tasks: all_task});
         res.status(200).json({status:'success', message: 'All Tasks you have created', tasks: all_task});
     }
     catch (e) {
         res.status(500).json({status:'fail', message: e.toString()});
     }
 };
+
 
 
 export const GetTaskbyID = async (req, res)=> {
@@ -120,10 +121,14 @@ export const TaskListByStatus = async (req, res)=> {
 
         const tasks = await TaskModel.find({user_id, status});
 
-        // if (status === 'Completed') {
-        //     res.render('completed_tasks', {tasks});
-        // }
-        if (status === 'Pending') {
+        console.log(status);
+
+        if (status === 'Completed') {
+            console.log("hi");
+            res.render('completed_tasks', {tasks});
+            // res.json(tasks);
+        }
+        else if (status === 'Pending') {
             res.render('pending_tasks', {tasks});
         }
         else if (status === 'In Progress') {

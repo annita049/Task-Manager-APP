@@ -18,13 +18,21 @@ router.get("/Home", async (req, res) => {
     }
 });
 
-router.get("/Task/Completed", AuthMiddleware, (req, res) => {
-    res.render('completed_tasks');
+
+
+// router.get("/Task/Completed", AuthMiddleware, (req, res) => {
+//     res.render('completed_tasks');
+// });
+
+// Users Routes -----------'
+
+
+
+router.get("/Register", async (req, res) => {
+    res.render('register');
 });
 
-// Users Routes -----------
-
-router.post("/Registration", UserController.Registration);
+router.post("/Register", UserController.Registration);
 
 router.get("/Login", UserController.getLoginPage);
 router.post("/Login", UserController.HandleLogin);

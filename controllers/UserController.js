@@ -44,7 +44,9 @@ export const Registration = async (req, res) => {
 
         await SendOTP(user);
 
-        return res.status(201).json({status: "success", message: "User registered successfully! OTP sent to email for verification."});
+        // if registered then login
+        res.redirect('/Login');
+        // return res.status(201).json({status: "success", message: "User registered successfully! OTP sent to email for verification."});
     }
     catch(err){
         res.status(500).json({status: "fail", message: err.toString()});

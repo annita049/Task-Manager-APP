@@ -35,14 +35,14 @@ button {
     background-color: #fff;
     position: absolute; /* Use absolute positioning */
     top: 50%; /* Position from the top */
-    left: 50%; /* Position from the left */
-    transform: translate(-50%, -50%); /* Center the popup */
+    left: 50%;
+    transform: translate(-50%, -50%);
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-    max-width: 500px; /* Set a max width */
+    width: 80%;
+    max-width: 500px;
     border-radius: 5px;
-    animation: fadeIn 0.3s; /* Fade in effect */
+    animation: fadeIn 0.3s;
 }
 
 @keyframes fadeIn {
