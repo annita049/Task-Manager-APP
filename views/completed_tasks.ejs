@@ -33,9 +33,9 @@
         <div class="row">
             <%- include('partials/sidebar') %>
 
-            <div class="col-10 px-5 pt-2">
+            <div class="col-10 px-5 pt-5">
                 <div class="content-container">
-                    <%- include('layouts/task_functionalities') %>
+                    <%- include('layouts/search_sort') %>
                     <div class="task-board">
                         <% if (tasks.length > 0) { %>
                             <% tasks.forEach(function(task) { %>
@@ -63,5 +63,6 @@
         </div>
     </div>
     <script src="/JS/active.js"></script>
+    <!-- <script src="/JS/search.js"></script> -->
 </body>
 </html>

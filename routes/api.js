@@ -9,23 +9,14 @@ import AuthMiddleware from "../middlewares/AuthMiddleware.js";
 
 // HomePage -----------
 
-router.get("/Home", async (req, res) => {
-    if (req.cookies.Token) {
-        res.render('home', { user: req.user });
-    }
-    else {
-        res.render('guest_home');
-    }
+router.get("/Home", AuthMiddleware, async (req, res) => {
+    console.log(req.cookies.Token);
+    console.log(req.user);
+    res.render('home');
 });
 
 
-
-// router.get("/Task/Completed", AuthMiddleware, (req, res) => {
-//     res.render('completed_tasks');
-// });
-
-// Users Routes -----------'
-
+// Users Routes -----------
 
 
 router.get("/Register", async (req, res) => {
@@ -66,6 +57,14 @@ router.get("/Task/:status", AuthMiddleware, TaskController.TaskListByStatus);
 
 router.get("/CountTask", AuthMiddleware, TaskController.CountTask);
 
-router.get("/SortTaskByPriority/:status", AuthMiddleware, TaskController.SortTaskByPriority); // based on a status
+router.get("/Tasks/:status/sorted", AuthMiddleware, TaskController.SortTaskByPriority); // based on a status
+
+router.post("/Task/:status/search", AuthMiddleware, TaskController.SearchInStatus);
+
+router.get('/Logout', (req, res) => {
+    res.clearCookie('Token');
+    res.redirect('/login');
+});
+
 
 export default router;

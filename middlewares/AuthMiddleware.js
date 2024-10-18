@@ -6,12 +6,11 @@ export default (req, res, next) => {
     // console.log('cookie token', token);
 
     if(!token){
-        // res.status(401).json({status: 'fail', message: 'Access Denied!'});
-        // res.redirect('/home');
-        // res.render(guest_home);
-        res.redirect('/home');
+        // req.user = null;
         // return next();
+        res.redirect('/login');
     }
+
     else {
         try {
             let decoded = DecodeToken(token);

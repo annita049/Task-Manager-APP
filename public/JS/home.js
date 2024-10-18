@@ -33,7 +33,7 @@ function UpdateTask(taskId){
     fetch(`/UpdateTask/${taskId}`)
         .then(response => response.json())
         .then(data => {
-            if (data.status === 'success') {
+            if (data.success) {
                 document.getElementById('title').value = data.task.title;
                 document.getElementById('description').value = data.task.description;
                 document.getElementById('status').value = data.task.status;
@@ -59,7 +59,7 @@ async function DeleteTask(taskId){ //obejct unique id
             let Response = await fetch(`/DeleteTask/${taskId}`);
             Response = await Response.json();
     
-            if (Response.status === 'success'){
+            if (Response.success){
                 console.log("yes deleted");
                 location.reload();
             }
@@ -80,7 +80,7 @@ async function TaskCounts() {
         const countResponse = await fetch('/CountTask');
         const count = await countResponse.json();
 
-        if (count.status === 'success') {
+        if (count.success) {
             document.getElementById('totalTasks').innerText = count.TotalTasks;
             document.getElementById('completedTasks').innerText = count.CompletedTasks;
             document.getElementById('pendingTasks').innerText = count.PendingTasks;
@@ -99,7 +99,7 @@ async function AllTaskList() {
         const tasksResponse = await fetch('/AllTaskList');
         const tasks = await tasksResponse.json();
 
-        if (tasks.status === 'success') {
+        if (tasks.success) {
             const taskBoard = document.querySelector('.task-board');
             // taskBoard.innerHTML = `${tasks.tasks[2].title}`; //test
 

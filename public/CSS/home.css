@@ -374,8 +374,13 @@ input#description {
     color: #333;
 }
 
-/* .form-select #low:hover {
-    background-color: #47684b;
-    color: #333;
+.sort-priority {
+    background-color: var(--purple);
+    color: #fff;
+    padding: 6px 15px;
+    cursor: pointer;
 }
-*/
+
+.logout {
+    text-decoration: none;
+}

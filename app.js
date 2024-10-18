@@ -25,6 +25,11 @@ app.use(cookieParser());
 //     credentials: true,
 // }));
 app.use(helmet());
+
+app.use((req, res, next) => {
+    res.set('Cache-Control', 'no-store');  // Prevents browser from caching the page
+    next();
+});
 // app.use(express.json());
 app.use(express.json({limit: MAX_JSON_SIZE}));
 app.use(express.urlencoded({extended: true})); //set to true
