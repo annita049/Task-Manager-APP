@@ -1,6 +1,8 @@
 // document.querySelector('#popupModal .modal-title').textContent= "Create New Task";
 
-let editMode = false;
+document.getElementById('closePopup').addEventListener('click', function() {
+    document.getElementById('popupForm').style.display = 'none';
+});
 
 function clearForm() {
     document.getElementById('taskid').value = '';
@@ -23,8 +25,7 @@ function UpdateTask(taskId){
     document.querySelector('.from-title').textContent = "Update Task";
     document.getElementById('taskForm').action = `UpdateTask/${taskId}`;
     
-    editMode = true;
-
+    // editMode = true;
     // console.log(document.getElementById('taskForm'));
     // taskForm.action = `/UpdateTask/${taskId}`
     // console.log(taskForm.action);

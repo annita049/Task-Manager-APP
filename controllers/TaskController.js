@@ -17,7 +17,6 @@ export const CreateTask = async (req, res) => {
 
         await task.save();
         res.redirect('/Home');
-
     }
 
     catch (e) {
@@ -198,12 +197,15 @@ export const SortTaskByPriority = async (req, res)=> {
             }
         ]);
 
+        // console.log(SortedTasks);
+
         res.status(200).json({
             success: true,
             message: `Tasks are sorted by priority (High to Low) based on ${status} Tasks`,
             SortedTasks
         });
     }
+    
     catch (e) {
         res.status(500).json({ success: false, message: e.toString() });
     }

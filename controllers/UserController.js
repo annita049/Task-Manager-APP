@@ -27,29 +27,32 @@ export const Registration = async (req, res) => {
     try {
         let {email, firstname, lastname, password} = req.body;
         let user = await UserModel.findOne({email});
-        if(user){
-            return res.status(400).json({status: "fail", message: "User already exists!"});
+        console.log(user);
+        if (user!==null){
+            // return res.status(400).json({status: "fail", message: "User already exists!"});
+            return res.render('register', {success: false, message: "User Already Exists"});
         }
         // const otp = generateOTP();
         // console.log("my otp---->", otp);
-
-        user = new UserModel({
-            email,
-            firstname,
-            lastname,
-            password,
-        });
-        
-        await user.save();
-
-        await SendOTP(user);
-
-        // if registered then login
-        res.redirect('/Login');
+        else {
+            user = new UserModel({
+                email,
+                firstname,
+                lastname,
+                password,
+            });
+            
+            await user.save();
+    
+            await SendOTP(user);
+    
+            // if registered then login
+            res.redirect('/Login');
+        }
         // return res.status(201).json({status: "success", message: "User registered successfully! OTP sent to email for verification."});
     }
-    catch(err){
-        res.status(500).json({status: "fail", message: err.toString()});
+    catch(e){
+        res.status(500).json({success: false, message: e.toString()});
     }
 }
 
@@ -105,12 +108,12 @@ export const ProfileDetails = async (req, res)=> {
         let user = await UserModel.findById(user_id).select(['firstname', 'lastname', 'email']);
 
         if (!user)
-            return res.status(404).json({status: "fail", message: "User Not found!"});
+            return res.status(404).json({success: false, message: "User Not found!"});
 
-        res.status(200).json({status: "success", message: "User found!",user});
+        res.status(200).json({success: true, message: "User found!", user});
     }
     catch(e){
-        res.status(500).json({status: "fail", message: e.toString()});
+        res.status(500).json({success: false, message: e.toString()});
     }
 }
 
