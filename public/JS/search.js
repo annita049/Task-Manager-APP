@@ -11,7 +11,7 @@ document.getElementById('searchForm').addEventListener('submit', function (event
     event.preventDefault();
 
     const title = document.getElementById('titleInput').value.trim();
-    const status = '<%= status %>';
+    const status = document.getElementById('hiddenInput').value;
     console.log(status);
 
     if (!title && !status) {
@@ -38,6 +38,7 @@ document.getElementById('searchForm').addEventListener('submit', function (event
 
                 const taskBox = document.createElement('div');
                 taskBox.className = 'task-box';
+                console.log("why");
 
                 taskBox.innerHTML = 
                 `<div class="taskbox-header">
