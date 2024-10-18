@@ -214,8 +214,8 @@ export const SortTaskByPriority = async (req, res)=> {
 export const SearchInStatus = async (req, res) => {
         try {
         const user_id = req.user.user_id; 
-        const status = req.params.status;
-        const {title} = req.body;
+        // const status = req.params.status;
+        const {title, status} = req.body;
         console.log("statis-->", status);
         console.log("taitel-->", title);
     
@@ -232,15 +232,15 @@ export const SearchInStatus = async (req, res) => {
             status,
             title: { $regex: titleRegex }
         });
-        console.log(tasks);
+        // console.log(tasks);
     
         if (tasks.length === 0) {
-            // return res.json({success: false});
-            return res.render('search', {status, success: false, message: 'No Tasks found'});
+            return res.json({success: false});
+            // return res.render('search', {status, success: false, message: 'No Tasks found'});
         }
         else {
-            return res.render('search', {status, success: true, tasks});
-            // return res.json({success: true, tasks});
+            // return res.render('search', {status, success: true, tasks});
+            return res.json({success: true, tasks});
         }
     }
     catch (e) {
