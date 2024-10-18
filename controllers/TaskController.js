@@ -212,27 +212,21 @@ export const SortTaskByPriority = async (req, res)=> {
 // status and title based SEARCH
 
 export const SearchInStatus = async (req, res) => {
-        try {
-        const user_id = req.user.user_id; 
-        // const status = req.params.status;
-        const {title, status} = req.body;
-        console.log("statis-->", status);
-        console.log("taitel-->", title);
-    
+    try {
+    const user_id = req.user.user_id; 
+    // const status = req.params.status;
+    const {title, status} = req.body;
+    console.log("statis-->", status);
+    console.log("taitel-->", title);
+
         if (!status || !title) {
             return ;
-            // return res.status(400).json({ success: false, message: 'invalid query parameters'});
         }
-  
-        // case-insensitive search
-        const titleRegex = new RegExp(title, 'i');
-    
         const tasks = await TaskModel.find({
             user_id,
             status,
-            title: { $regex: titleRegex }
+            title: { $regex: title, $options: 'i' }
         });
-        // console.log(tasks);
     
         if (tasks.length === 0) {
             return res.json({success: false});
@@ -246,4 +240,23 @@ export const SearchInStatus = async (req, res) => {
     catch (e) {
         res.status(500).json({success: false, message: e.toString()});
     }
-  };
+};
+
+export const SearchAllTasks = async (req, res) => {
+    const user_id = req.user.user_id;
+    const { title } = req.body;
+    if (!title) {
+        return ;
+    }
+    try {
+        const tasks = await TaskModel.find({
+            title: {$regex: title, $options: 'i'},
+            user_id,
+        });
+        res.json({success: true, tasks});
+    }
+    catch (error) {
+        console.error('Error searching tasks:', error);
+        res.status(500).json({success: false, message: 'Server error'});
+    }
+}

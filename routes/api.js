@@ -66,5 +66,7 @@ router.get('/Logout', (req, res) => {
     res.redirect('/login');
 });
 
+router.post('/Home/search', AuthMiddleware, TaskController.SearchAllTasks);
+
 
 export default router;
