@@ -14,20 +14,17 @@ window.addEventListener('DOMContentLoaded', () => {
     })
     .catch(error => {
         console.error('Error fetching tasks:', error);
-    });
-    
+    }); 
 });
 
 document.addEventListener('DOMContentLoaded', function() {
     const dropdownButton = document.getElementById('dropdownMenuButton');
     const dropdownContent = document.getElementById('dropdownContent');
 
-    // Toggle dropdown visibility on button click
     dropdownButton.addEventListener('click', function() {
         dropdownContent.classList.toggle('show');
     });
 
-    // Close the dropdown if clicked outside of it
     window.addEventListener('click', function(event) {
         if (!dropdownButton.contains(event.target)) {
             dropdownContent.classList.remove('show');

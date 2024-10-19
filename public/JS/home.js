@@ -139,7 +139,7 @@ async function AllTaskList() {
             });
         }
         else {
-            document.getElementById('task-board').innerHTML = `<h2>${tasks.message}</h2>`;
+            document.getElementById('task-board').innerHTML = `<div class="no-task-found"> <h2>${tasks.message}</h2> </div>`;
         }
     }
     catch (error) {
@@ -154,25 +154,8 @@ window.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.nav-link#home').classList.add('active');
 });
 
-// const taskForm = document.getElementById('taskForm');
-// console.log(popupForm);
 
-// taskForm.addEventListener('submit', function(event) {
-//     event.preventDefault();
-
-//     if (editMode) {
-//         const taskId = document.getElementById('taskid').value;
-//         console.log(taskId);
-//         taskForm.action = `/UpdateTask/${taskId}`;
-//         console.log('editMode-->', editMode);
-//         console.log(taskForm.action);
-//     } else {
-//         taskForm.action = '/CreateTask';
-//     }
-//     taskForm.submit();
-// });
-
-// implementing search
+// implementing search ---------------------
 
 document.getElementById('searchForm').addEventListener('submit', function (event) {
     event.preventDefault();
@@ -218,9 +201,19 @@ document.getElementById('searchForm').addEventListener('submit', function (event
                 
                 taskBoard.appendChild(taskBox);
             });
+            document.getElementById(`updateTask-${task._id}`).addEventListener('click', () => {
+                document.getElementById('popupForm').style.display = 'block';
+                // $('#popupForm').show();
+                UpdateTask(task._id);
+            });
+
+            document.getElementById(`deleteTask-${task._id}`).addEventListener('click', () => {
+                // document.getElementById('popupForm').style.display = 'block';
+                DeleteTask(task._id);
+            });
         }
         else {
-            taskBoard.innerHTML = '<h2>No Tasks found.</h2>';
+            taskBoard.innerHTML = '<div class="no-task-found"> <h2> No Taks found. </h2></div>';
         }
     })
     .catch(error => {

@@ -393,3 +393,23 @@ input#description {
 .logout {
     text-decoration: none;
 }
+
+#dropdown-menu {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+.no-task-found {
+    display: flex;
+    width: 70vw;
+    justify-content: center;
+    align-items: center;
+    /* color: blue; */
+    /* background-color: #ccc; */
+}
+.no-task-found h2{
+    text-align: center;
+    font-size: 50px;
+}
