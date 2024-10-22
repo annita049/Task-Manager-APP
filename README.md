@@ -24,12 +24,39 @@ A web-based task management application built with **Node.js**, **Express**, **M
 
 ## Installation
 
-1. Clone the repository
+1. Clone the Repository:
    ```bash
    git clone https://github.com/annita049/Task-Manager-APP.git
+   ```
 
-**Install dependencies:**
+2. Install Dependencies:
 
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
+
+3. Run the Server with Nodemon:
+   ```bash
+   nodemon app.js
+   ```
+## API ENDPOINTS
+## API Endpoints
+
+| Method | Endpoint                   | Description                                                 |
+| ------ | -------------------------- | ------------------------------------------                  |
+| GET    | `/guest`                   | For guest users to get started                              |
+| GET    | `/register`                | Gets the registration form for a new user                   |
+| POST   | `/register`                | Registers a new user                                        |
+| GET    | `/login`                   | Gets the user login form                                    |
+| POST   | `/login`                   | Logs in an existing user                                    |
+| GET    | `/home`                    | Retrieves the profile and task info of the logged-in user   |
+| GET    | `/task/Completed`          | Retrives all the Completed tasks                            |
+| POST   | `/task/In Progress`        | Retrives all the In Progress tasks                          |
+| GET    | `/task/Pending`            | Retrives all the Pending                                    |
+| GET    | `/task/Completed/search`   | Searches within the Completed tasks by task title           |
+| GET    | `/task/In Progress/search` | Searches within the In Progress tasks by task title         |
+| GET    | `/task/Pending/search`     | Searches within the Pending tasks category by task title    |
+| GET    | `/task/Completed/sort`     | Sorts within the Completed tasks category by priority       |
+| GET    | `/task/In Progress/sort`   | Sorts within the In Progress tasks category by priority     |
+| GET    | `/task/Pending/sort`       | Sorts within the Pending tasks category by priority         |
+| GET    | `/task/logout`             | Logs the user out of the app                                |
