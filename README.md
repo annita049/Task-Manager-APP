@@ -27,3 +27,9 @@ A web-based task management application built with **Node.js**, **Express**, **M
 1. Clone the repository
    ```bash
    git clone https://github.com/annita049/Task-Manager-APP.git
+
+**Install dependencies:**
+
+```bash
+npm install
+```
