@@ -1,20 +1,18 @@
 # Task Manager Web Application
 
-A web-based task management application built with **Node.js**, **Express**, **MongoDB**, and **EJS**. This app allows users to create, update, and delete tasks, categorize tasks by status, and manage user profiles with authentication and authorization.
+A web-based task management application built with **Node.js**, **Express**, **MongoDB**, and **EJS**. This app allows users to create, update, and delete tasks, categorize tasks by status, and sorted by priority , manages user profiles with authentication and authorization.
 
 ## Features
 
+- Responsive user interface with EJS templating
 - User Registration and Login with secure authentication
-- Email verification with OTP
-- Password reset request via email
-- Create, update, and delete tasks
+- Password reset request via email and OTP verification
+- Create, update, and delete tasks in homepage
 - Task categorization by status (Completed, Pending, In Progress)
 - Sort tasks by priority (High, Medium, Low)
 - Search tasks by title within a status or across all tasks
-- Profile update functionality
 - User authentication using JWT tokens
 - Task statistics and task count feature
-- Responsive user interface with EJS templating
 
 ## Tech Stack
 
