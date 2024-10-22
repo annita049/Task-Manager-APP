@@ -203,12 +203,11 @@ document.getElementById('searchForm').addEventListener('submit', function (event
             });
             document.getElementById(`updateTask-${task._id}`).addEventListener('click', () => {
                 document.getElementById('popupForm').style.display = 'block';
-                // $('#popupForm').show();
                 UpdateTask(task._id);
             });
 
             document.getElementById(`deleteTask-${task._id}`).addEventListener('click', () => {
-                // document.getElementById('popupForm').style.display = 'block';
+                document.getElementById('popupForm').style.display = 'block';
                 DeleteTask(task._id);
             });
         }
