@@ -1,9 +1,5 @@
 // document.querySelector('#popupModal .modal-title').textContent= "Create New Task";
 
-document.getElementById('closePopup').addEventListener('click', function() {
-    document.getElementById('popupForm').style.display = 'none';
-});
-
 function clearForm() {
     document.getElementById('taskid').value = '';
     document.getElementById('title').value = '';
@@ -22,13 +18,10 @@ document.getElementById('createTask').addEventListener('click', function() {
 function UpdateTask(taskId){
     console.log("jobbie");
     console.log(taskId);
+    document.getElementById('popupForm').style.display = 'block';
+
     document.querySelector('.from-title').textContent = "Update Task";
     document.getElementById('taskForm').action = `UpdateTask/${taskId}`;
-    
-    // editMode = true;
-    // console.log(document.getElementById('taskForm'));
-    // taskForm.action = `/UpdateTask/${taskId}`
-    // console.log(taskForm.action);
 
     // fetching old values ...
     fetch(`/UpdateTask/${taskId}`)
@@ -76,6 +69,41 @@ async function DeleteTask(taskId){ //obejct unique id
     }
 }
 
+function GenerateTask(tasks, key){
+    const taskBoard = document.querySelector('.task-board');
+
+    tasks.forEach(task => {
+        const taskBox = document.createElement('div');
+        taskBox.className = 'task-box';
+
+        taskBox.innerHTML = 
+        `<div class="taskbox-header">
+            <div class="task-title">${task.title}</div>
+        </div>
+        <div class="taskbox-body">
+            <div class="task-description">${task.description}</div>
+        </div>
+        <div class="edit-delete-icons">
+            <a class="update-btn" id="${key}-updateTask-${task._id}"><i class="fa-solid fa-pen"></i></a>
+            <a class="delete-btn" id="${key}-deleteTask-${task._id}"><i class="fas fa-trash-alt"></i></a>
+        </div>
+        <div class="task-footer">
+            <span class="task-status" id="${task.status.toLowerCase()}">${task.status}</span>
+            <span class="task-priority" id="${task.priority.toLowerCase()}">${task.priority}</span>
+            <div class="priority-indicator" id="${task.priority.toLowerCase()}"></div>
+        </div>`
+        taskBoard.appendChild(taskBox);
+
+        document.getElementById(`${key}-updateTask-${task._id}`).addEventListener('click', () => {
+            UpdateTask(task._id);
+        });
+
+        document.getElementById(`${key}-deleteTask-${task._id}`).addEventListener('click', () => {
+            DeleteTask(task._id);
+        });
+    });
+}
+
 async function TaskCounts() {
     try {
         const countResponse = await fetch('/CountTask');
@@ -101,49 +129,15 @@ async function AllTaskList() {
         const tasks = await tasksResponse.json();
 
         if (tasks.success) {
-            const taskBoard = document.querySelector('.task-board');
-            // taskBoard.innerHTML = `${tasks.tasks[2].title}`; //test
 
-            tasks.tasks.forEach(task => {
-                const taskBox = document.createElement('div');
-                taskBox.className = 'task-box';
-
-                taskBox.innerHTML = 
-                `<div class="taskbox-header">
-                    <div class="task-title">${task.title}</div>
-                </div>
-                <div class="taskbox-body">
-                    <div class="task-description">${task.description}</div>
-                </div>
-                <div class="edit-delete-icons">
-                    <a id="updateTask-${task._id}"><i class="fa-solid fa-pen"></i></a>
-                    <a id="deleteTask-${task._id}"><i class="fas fa-trash-alt"></i></a>
-                </div>
-                <div class="task-footer">
-                    <span class="task-status" id="${task.status.toLowerCase()}">${task.status}</span>
-                    <span class="task-priority" id="${task.priority.toLowerCase()}">${task.priority}</span>
-                    <div class="priority-indicator" id="${task.priority.toLowerCase()}"></div>
-                </div>`
-                taskBoard.appendChild(taskBox);
-
-                document.getElementById(`updateTask-${task._id}`).addEventListener('click', () => {
-                    document.getElementById('popupForm').style.display = 'block';
-                    // $('#popupForm').show();
-                    UpdateTask(task._id);
-                });
-
-                document.getElementById(`deleteTask-${task._id}`).addEventListener('click', () => {
-                    // document.getElementById('popupForm').style.display = 'block';
-                    DeleteTask(task._id);
-                });
-            });
+            GenerateTask(tasks.tasks, "get");
         }
         else {
             document.getElementById('task-board').innerHTML = `<div class="no-task-found"> <h2>${tasks.message}</h2> </div>`;
         }
     }
     catch (error) {
-        // document.getElementById('task-board').innerHTML = "holy error!"
+
         console.error('Error fetching tasks:', error);
     }
 }
@@ -151,7 +145,7 @@ async function AllTaskList() {
 window.addEventListener('DOMContentLoaded', () => {
     TaskCounts();
     AllTaskList();
-    document.querySelector('.nav-link#home').classList.add('active');
+    document.querySelector('.nav-link').classList.add('active');
 });
 
 
@@ -177,39 +171,7 @@ document.getElementById('searchForm').addEventListener('submit', function (event
 
         if (data.success && data.tasks.length) {
 
-            data.tasks.forEach(task => {
-
-                const taskBox = document.createElement('div');
-                taskBox.className = 'task-box';
-
-                taskBox.innerHTML = 
-                `<div class="taskbox-header">
-                    <div class="task-title">${task.title}</div>
-                </div>
-                <div class="taskbox-body">
-                    <div class="task-description">${task.description}</div>
-                </div>
-                <div class="edit-delete-icons">
-                    <a id="updateTask-${task._id}"><i class="fa-solid fa-pen"></i></a>
-                    <a id="deleteTask-${task._id}"><i class="fas fa-trash-alt"></i></a>
-                </div>
-                <div class="task-footer">
-                    <span class="task-status" id="${task.status.toLowerCase()}">${task.status}</span>
-                    <span class="task-priority" id="${task.priority.toLowerCase()}">${task.priority}</span>
-                    <div class="priority-indicator" id="${task.priority.toLowerCase()}"></div>
-                </div>`
-                
-                taskBoard.appendChild(taskBox);
-            });
-            document.getElementById(`updateTask-${task._id}`).addEventListener('click', () => {
-                document.getElementById('popupForm').style.display = 'block';
-                UpdateTask(task._id);
-            });
-
-            document.getElementById(`deleteTask-${task._id}`).addEventListener('click', () => {
-                document.getElementById('popupForm').style.display = 'block';
-                DeleteTask(task._id);
-            });
+            GenerateTask(data.tasks, "search");
         }
         else {
             taskBoard.innerHTML = '<div class="no-task-found"> <h2> No Taks found. </h2></div>';

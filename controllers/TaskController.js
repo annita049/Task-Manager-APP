@@ -123,22 +123,15 @@ export const TaskListByStatus = async (req, res)=> {
 
         console.log(status);
 
-        if (status === 'Completed') {
+        if (status === 'Completed' || 'Pending' || 'In Progress') {
             console.log("hi");
-            res.render('completed_tasks', {tasks, status});
-            // res.json(tasks);
-        }
-        else if (status === 'Pending') {
-            res.render('pending_tasks', {tasks, status});
-        }
-        else if (status === 'In Progress') {
-            res.render('inprogress_tasks', {tasks, status});
+            res.render('categorical_tasks', {tasks, status});
         }
         else {
             res.status(400).json({success: false, message: 'Invalid status' });
         }
-        // res.json({success: true, tasks});
     }
+
     catch (e) {
         res.status(500).json({success: false, message: e.toString()});
     }
@@ -197,8 +190,6 @@ export const SortTaskByPriority = async (req, res)=> {
             }
         ]);
 
-        // console.log(SortedTasks);
-
         res.status(200).json({
             success: true,
             message: `Tasks are sorted by priority (High to Low) based on ${status} Tasks`,
@@ -211,7 +202,7 @@ export const SortTaskByPriority = async (req, res)=> {
     }
 }
 
-// status and title based SEARCH
+// status and title based SEARCH -----------------
 
 export const SearchInStatus = async (req, res) => {
     try {

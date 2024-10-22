@@ -70,6 +70,7 @@ input[type="text"], textarea, select {
     padding: 6px 15px;
     margin: 10px 0;
     border: 1px solid #ccc;
+    resize: none;
     border-radius: 4px;
     border-radius: 20px;
 }

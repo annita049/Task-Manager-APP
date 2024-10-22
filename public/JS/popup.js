@@ -15,6 +15,10 @@ window.addEventListener('DOMContentLoaded', () => {
     .catch(error => {
         console.error('Error fetching tasks:', error);
     }); 
+
+    document.getElementById('closePopup').addEventListener('click', function() {
+        document.getElementById('popupForm').style.display = 'none';
+    });
 });
 
 document.addEventListener('DOMContentLoaded', function() {

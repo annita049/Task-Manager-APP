@@ -1,9 +1,7 @@
 document.getElementById('sort-priority').addEventListener('click', function() {
 
     const status = document.getElementById('hiddenInput').value;
-
-    console.log("yes", status);
-
+    
     fetch(`/Task/${status}/sorted`)
     .then(response => response.json())
     .then(data => {

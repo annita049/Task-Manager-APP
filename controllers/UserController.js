@@ -29,8 +29,7 @@ export const Registration = async (req, res) => {
         let user = await UserModel.findOne({email});
         console.log(user);
         if (user!==null){
-            // return res.status(400).json({status: "fail", message: "User already exists!"});
-            return res.render('register', {success: false, message: "User Already Exists"});
+            return res.render('register', {success: false, message: "User Already Exists"}); // the email is taken
         }
         // const otp = generateOTP();
         // console.log("my otp---->", otp);
@@ -47,9 +46,9 @@ export const Registration = async (req, res) => {
             await SendOTP(user);
     
             // if registered then login
-            res.redirect('/Login');
+            res.render('login', {regSuccess: "Registration Successful. Please Log in."});
+            // res.redirect('/Login');
         }
-        // return res.status(201).json({status: "success", message: "User registered successfully! OTP sent to email for verification."});
     }
     catch(e){
         res.status(500).json({success: false, message: e.toString()});
@@ -68,15 +67,12 @@ export const HandleLogin = async (req, res)=> {
     
         if(!user){
             res.render('login', {error: 'Invalid Email or Password!'});
-            // return res.status(400).json({status:"fail", message: "User not found!" }); // show alerts on the same page (login)
         }
+
         else if (!await bcrypt.compare(req.body.password, user.password)) {
             // const isMatch = await bcrypt.compare(req.body.password, user.password); 
             res.render('login', {error: 'Invalid Email or Password!'});
         }
-        // if (!user.isVerified) {
-        //     return res.status(401).json({status: "fail", message: 'Email not verified. Please verify your email first'});
-        // }
 
         else {
                     
@@ -87,17 +83,15 @@ export const HandleLogin = async (req, res)=> {
                 secure: false,  // Only set secure in production
                 maxAge: 30 * 24 * 60 * 60 * 1000  // 30 days
             });
-            // console.log('Cookie sent:', res.getHeaders());
+
             console.log("im cookie", req.cookies);
-            // res.status(200).json({status: "success", message: "Login Successful, user found!", user, token});
-            // if(token)
+
             res.redirect('/Home');
         }
     }
     
     catch(err){
         res.status(500).json({status: "fail", message: err.toString()});
-        // res.status(500).send(`<h2>Server Error</h2>`)
     }
 }
 
@@ -105,7 +99,7 @@ export const ProfileDetails = async (req, res)=> {
 
     try {
         const user_id = req.user.user_id;
-        let user = await UserModel.findById(user_id).select(['firstname', 'lastname', 'email']);
+        let user = await UserModel.findById(user_id); //select(['firstname', 'lastname', 'email']);
 
         if (!user)
             return res.status(404).json({success: false, message: "User Not found!"});
@@ -192,16 +186,20 @@ export const RequestPasswordReset = async (req, res)=> {
     try {
         const user = await UserModel.findOne({email});
         if (!user) {
+            // return res.redirect('/');
             return res.status(404).json({status: "fail", message: "Email not found"});
         }
 
         // Send the OTP via email (use your email service)
         await SendOTP(user);
 
-        res.status(200).json({status: "success", message: "Password reset OTP sent to your email"});
+        res.status(200).json({status: "success", message: "Password reset OTP has been sent to your email"});
     }
     catch (err) {
         res.status(500).json({status: "success", message: e.toString()});
     }
-}
+}g
 
+export const ResetPassword = async (req, res)=> {
+
+}

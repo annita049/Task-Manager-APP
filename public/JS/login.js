@@ -8,6 +8,11 @@ togglePassword.addEventListener('click', function () {
     eyeIcon.classList.toggle('bi-eye');
     eyeIcon.classList.toggle('bi-eye-slash');
 });
+
+document.querySelector('.btn-close').addEventListener('click', function() {
+    document.querySelector('.alert').style.display = 'none';
+});
+
 passwordInput.value="";
 passwordInput.blur();
 
